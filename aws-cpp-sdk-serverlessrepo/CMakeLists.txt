@@ -64,7 +64,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<INSTALL_INTERFACE:include>)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PLATFORM_DEP_LIBS} ${PROJECT_LIBS})
-
+list(APPEND AWS_INSTALLED_LIBS "${PROJECT_NAME}")
+set(AWS_INSTALLED_LIBS "${AWS_INSTALLED_LIBS}" PARENT_SCOPE)
 
 setup_install()
 

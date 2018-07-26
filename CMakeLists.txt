@@ -77,6 +77,7 @@ set(PYTHON_CMD "python")
 # which could be used to search CMAKE modules by "include()" or "find_package()", but the default value is empty.
 # Add cmake dir to search list
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+set(AWS_INSTALLED_LIBS "")
 
 # include() will "load and run" cmake script
 include(resolve_platform)
@@ -193,3 +194,12 @@ if (NOT TARGET uninstall)
 else()
     ADD_CUSTOM_TARGET(uninstall-awssdk "${CMAKE_COMMAND}" -P "${AWS_NATIVE_SDK_ROOT}/cmake/make_uninstall.cmake")
 endif()
+
+set(AWSSDKCPP_VERSION "0.0.1")
+configure_file(${PROJECT_SOURCE_DIR}/AWSSDKCPPConfigVersion.cmake.in ${PROJECT_BINARY_DIR}/AWSSDKCPPConfigVersion.cmake @ONLY)
+install(FILES ${PROJECT_BINARY_DIR}/AWSSDKCPPConfigVersion.cmake DESTINATION "share")
+
+set(CONFIG_INCLUDE_DIR "${CMAKE_INSTALL_PREFIX}/include")
+set(CONFIG_LIB_DIRS "${CMAKE_INSTALL_PREFIX}/lib/${SDK_INSTALL_BINARY_PREFIX}/${CMAKE_BUILD_TYPE}")
+configure_file(${PROJECT_SOURCE_DIR}/AWSSDKCPPConfig.cmake.in ${PROJECT_BINARY_DIR}/AWSSDKCPPConfig.cmake @ONLY)
+install(FILES ${PROJECT_BINARY_DIR}/AWSSDKCPPConfig.cmake DESTINATION "share")
